@@ -8,6 +8,7 @@
   <!-- General CSS Files -->
   <link rel="stylesheet" href="{{ asset('admin/assets/modules/bootstrap/css/bootstrap.min.css')}}">
   <link rel="stylesheet" href="{{ asset('admin/assets/modules/fontawesome/css/all.min.css')}}">
+  <link rel="stylesheet" href="{{ asset('admin/assets/modules/fontawesome/css/toastr.min.css')}}">
 
   <!-- CSS Libraries -->
 
@@ -60,5 +61,15 @@
   <!-- Template JS File -->
   <script src="{{ asset('admin/assets/js/scripts.js')}}"></script>
   <script src="{{ asset('admin/assets/js/custom.js')}}"></script>
+  <script src="{{ asset('admin/assets/js/toastr.min.js')}}"></script>
+
+  <script>
+    toastr.options.progressBar = true;
+    @if($errors->any())
+        @foreach($errors->all() as $error)
+            toastr.error("{{ $error }}");
+        @endforeach
+    @endif
+</script>
 </body>
 </html>
