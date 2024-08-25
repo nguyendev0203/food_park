@@ -50,15 +50,23 @@
             </li>
 
             <li class="menu-header">Starter</li>
-            {{-- <li class="dropdown">
+            <li><a class="nav-link" href="{{route('admin.slider.index')}}"><i class="far fa-square"></i>
+                    <span>Slider</span></a>
+            </li>
+            <li><a class="nav-link" href="{{route('admin.why-choose-us.index')}}"><i class="far fa-square"></i>
+                    <span>Why Choose Us</span></a>
+            </li>
+            <li><a class="nav-link" href="{{route('admin.why-choose-us.index')}}"><i class="far fa-square"></i>
+                    <span>Offer Item</span></a>
+            </li>
+            <li class="dropdown">
                 <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-columns"></i>
-                    <span>Layout</span></a>
+                    <span>Manage Restaurant</span></a>
                 <ul class="dropdown-menu">
-                    <li><a class="nav-link" href="layout-default.html">Default Layout</a></li>
-                    <li><a class="nav-link" href="layout-transparent.html">Transparent Sidebar</a></li>
-                    <li><a class="nav-link" href="layout-top-navigation.html">Top Navigation</a></li>
+                    <li><a class="nav-link" href="{{route('admin.category.index')}}">Product Categories</a></li>
+                    
                 </ul>
-            </li> --}}
+            </li>
             {{-- <li><a class="nav-link" href="blank.html"><i class="far fa-square"></i> <span>Blank Page</span></a>
             </li> --}}
 
