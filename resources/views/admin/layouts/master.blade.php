@@ -12,6 +12,7 @@
   <link rel="stylesheet" href="{{ asset('admin/assets/css/toastr.min.css')}}">
   <link rel="stylesheet" href="//cdn.datatables.net/2.1.4/css/dataTables.dataTables.min.css">
   <link rel="stylesheet" href="{{ asset('admin/assets/css/bootstrap-iconpicker.css') }}">
+  <link rel="stylesheet" href="{{ asset('admin/assets/modules/summernote/summernote-bs4.css')}}">
   <!-- CSS Libraries -->
 
 
@@ -73,6 +74,7 @@
   <script src="{{ asset('admin/assets/js/custom.js')}}"></script>
   <script src="{{ asset('admin/assets/js/toastr.min.js')}}"></script>
   <script src="{{ asset('admin/assets/modules/upload-preview/assets/js/jquery.uploadPreview.min.js')}}"></script>
+  <script src="{{ asset('admin/assets/modules/summernote/summernote-bs4.js')}}"></script>
 
 
   <script>

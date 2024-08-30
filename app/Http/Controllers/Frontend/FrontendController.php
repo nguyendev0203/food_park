@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Slider;
 use App\Models\WhyChooseUs;
 use App\Models\SectionTitle;
+use App\Models\Category;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 
@@ -16,9 +18,19 @@ class FrontendController extends Controller
         $sectionTitles = $this->getSectionTitles();
         $sliders = Slider::where('status', 1)->get();
         $whyChooseUs = WhyChooseUs::where('status', 1)->get();
-        return view('frontend.home.index', compact('sliders', 'whyChooseUs', 'sectionTitles'));
+        $categories = Category::where(['show_at_home' => 1, 'status' => 1])->get();
+        return view('frontend.home.index', compact('sliders', 'whyChooseUs', 'sectionTitles', 'categories'));
     }
 
+    public function showProduct($slug)
+    {
+        $product = Product::with([ 'galleries', 'sizes', 'options'])
+            ->where(['slug' => $slug, 'status' => 1])->firstOrFail();
+        $relatedProducts = Product::where(['category_id' => $product->category_id, 'status' => 1])
+            ->where('id', '!=', $product->id)->take(8)->latest()->get();
+        return view('frontend.pages.product-view', compact('product', 'relatedProducts'));
+    }
+    
     function getSectionTitles(): Collection
     {
         $keys = [

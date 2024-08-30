@@ -35,7 +35,7 @@
 <!--=============================
         MENU ITEM START
     ==============================-->
-{{-- @include('frontend.home.components.menu-item') --}}
+@include('frontend.home.components.menu-item')
 <!--=============================
         MENU ITEM END
     ==============================-->

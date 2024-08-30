@@ -7,7 +7,6 @@ use App\Http\Controllers\Frontend\FrontendController;
 use App\Http\Controllers\Admin\AdminAuthController;
 use App\Http\Controllers\Frontend\DashboardController;
 
-Route::get('/', [FrontendController::class, 'index'])->name('home');
 
 /**
  * Admin Auth Routes
@@ -28,3 +27,13 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 
 
 require __DIR__ . '/auth.php';
+
+/**
+ * Home Page
+ */
+Route::get('/', [FrontendController::class, 'index'])->name('home');
+
+/**
+ * Product details
+ */
+Route::get('/product/{slug}', [FrontendController::class, 'showProduct'])->name('product.show');
