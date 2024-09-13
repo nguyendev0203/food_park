@@ -10,6 +10,7 @@ use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
+use Psy\Command\WhereamiCommand;
 
 class FrontendController extends Controller
 {
@@ -31,7 +32,7 @@ class FrontendController extends Controller
         return view('frontend.pages.product-view', compact('product', 'relatedProducts'));
     }
     
-    function getSectionTitles(): Collection
+    public function getSectionTitles(): Collection
     {
         $keys = [
             'why_choose_top_title',
@@ -40,5 +41,12 @@ class FrontendController extends Controller
         ];
 
         return SectionTitle::whereIn('key', $keys)->pluck('value', 'key');
+    }
+
+    public function addToCartModal($slugId)
+    {
+        $product = Product::with(['sizes','options'])->where('id', $slugId)->findOrFail($slugId);
+
+        return view('frontend.layouts.ajax-files.add-to-cart-modal', compact('product'))->render();
     }
 }

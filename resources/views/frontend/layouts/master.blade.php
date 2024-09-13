@@ -20,10 +20,34 @@
 
     <link rel="stylesheet" href="{{ asset('frontend/css/style.css')}}">
     <link rel="stylesheet" href="{{ asset('frontend/css/responsive.css')}}">
+    <link rel="stylesheet" href="{{ asset('frontend/css/custom.css')}}">
     <!-- <link rel="stylesheet" href="css/rtl.css"> -->
 </head>
 
 <body>
+    <div class="overlay-container d-none">
+        <div class="overlay">
+            <span class="loader"></span>
+        </div>
+    </div>
+
+    <!--=============================
+        Cart Popup Modal Start
+    ==============================-->
+    <div class="fp__cart_popup">
+        <div class="modal fade" id="cartModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-body add-to-cart-modal">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--=============================
+        Cart Popup Modal End
+    ==============================-->
 
     <!--=============================
         TOPBAR START
@@ -132,6 +156,8 @@
             toastr.success("{{ session("status") }}");
         @endif
     </script>
+    {{-- Global Scripts --}}
+    @include('frontend.layouts.global-scripts')
     @stack('scripts')
 </body>
 

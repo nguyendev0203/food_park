@@ -130,7 +130,7 @@
                             <tr>
                                 <td>{{ ++$loop->index }}</td>
                                 <td>{{ $option->name }}</td>
-                                <td>{{ ($option->price) }}</td>
+                                <td>{{ currencyPosition($option->price) }}</td>
                                 <td>
                                     <a href='{{ route('admin.product-option.destroy', $option->id) }}'
                                         class='btn btn-danger delete-item mx-2'><i class='fas fa-trash'></i></a>

@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\ProductGalleryController;
 use App\Http\Controllers\Admin\ProductOptionController;
 use App\Http\Controllers\Admin\ProductSizeController;
+use App\Http\Controllers\Admin\SettingController;
 
 Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
     Route::get('dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
@@ -43,4 +44,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
 
     /** Product Option Routes */
     Route::resource('product-option', ProductOptionController::class);
+
+     /** Setting Routes */
+     Route::get('/setting', [SettingController::class, 'index'])->name('setting.index');
+     Route::put('/general-setting', [SettingController::class, 'UpdateGeneralSetting'])->name('general-setting.update');
 });

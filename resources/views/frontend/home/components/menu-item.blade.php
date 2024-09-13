@@ -53,12 +53,12 @@
                                 </p>
                                 <a class="title" href="{{route('product.show', $product->slug)}}">{{$product->name}}</a>
                                 @if ($product->offer_price > 0)
-                                <h5 class="price">${{$product->offer_price}} <del>{{$product->price}}</del></h5>
+                                <h5 class="price">{{currencyPosition($product->offer_price)}} <del>{{currencyPosition($product->price)}}</del></h5>
                                 @else
-                                <h5 class="price">${{$product->price}}</h5>
+                                <h5 class="price">{{currencyPosition($product->price)}}</h5>
                                 @endif
                                 <ul class="d-flex flex-wrap justify-content-center">
-                                    <li><a href="#" data-bs-toggle="modal" data-bs-target="#cartModal"><i
+                                    <li><a href="javascript:;" onclick="addToCartModal({{ $product->id }})"><i
                                                 class="fas fa-shopping-basket"></i></a></li>
                                     <li><a href="#"><i class="fal fa-heart"></i></a></li>
                                     <li><a href="#"><i class="far fa-eye"></i></a></li>

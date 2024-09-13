@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Frontend\FrontendController;
 use App\Http\Controllers\Admin\AdminAuthController;
+use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\Frontend\DashboardController;
 
 
@@ -37,3 +38,13 @@ Route::get('/', [FrontendController::class, 'index'])->name('home');
  * Product details
  */
 Route::get('/product/{slug}', [FrontendController::class, 'showProduct'])->name('product.show');
+
+/**
+* Add to cart modal
+*/
+Route::get('/add-to-cart-modal/{slug}', [FrontendController::class, 'addToCartModal'])->name('add-to-cart-modal');
+
+/** Add to cart */
+Route::post('add-to-cart', [CartController::class, 'addToCart'])->name('add-to-cart');
+Route::get('get-cart-products', [CartController::class, 'getCartProduct'])->name('get-cart-products');
+Route::get('cart-product-remove/{rowId}', [CartController::class, 'cartProductRemove'])->name('cart-product-remove');
