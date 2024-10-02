@@ -9,6 +9,7 @@ use Database\Factories\WhyChooseUsFactory;
 use Illuminate\Database\Seeder;
 use App\Models\WhyChooseUs;
 use App\Models\Category;
+use App\Models\Coupon;
 use App\Models\Product;
 
 class DatabaseSeeder extends Seeder
@@ -25,7 +26,7 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
         // $this->call(UserSeeder::class);
-        Product::factory(5)->create();
+        Coupon::factory(3)->create();
         // $this->call(CategorySeeder::class);
     }
 }

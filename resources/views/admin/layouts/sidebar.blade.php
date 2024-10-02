@@ -46,7 +46,7 @@
         </div>
         <ul class="sidebar-menu">
             <li class="menu-header">Dashboard</li>
-            <li class=active><a class="nav-link" href="index-0.html"><i class="fas fa-fire"></i>General Dashboard</a>
+            <li class=active><a class="nav-link" href="{{route('admin.dashboard')}}"><i class="fas fa-fire"></i>General Dashboard</a>
             </li>
 
             <li class="menu-header">Starter</li>
@@ -65,6 +65,8 @@
                 <ul class="dropdown-menu">
                     <li><a class="nav-link" href="{{route('admin.category.index')}}">Product Categories</a></li>
                     <li><a class="nav-link" href="{{route('admin.product.index')}}">Product</a></li>
+                    <li><a class="nav-link" href="{{route('admin.coupon.index')}}">Coupon</a></li>
+                    <li><a class="nav-link" href="{{route('admin.delivery-area.index')}}">Delivery Area</a></li>
                     
                 </ul>
             </li>

@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg main_menu">
     <div class="container">
-        <a class="navbar-brand" href="index.html">
+        <a class="navbar-brand" href="{{route('home')}}">
             <img src="{{ asset('frontend/images/logo.png') }}" alt="FoodPark" class="img-fluid">
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -102,8 +102,8 @@
             @endforeach
         </ul>
         <p class="subtotal">sub total <span class="cart_subtotal">{{ currencyPosition(cartTotal()) }}</span></p>
-        <a class="cart_view" href="cart_view.html"> view cart</a>
-        <a class="checkout" href="check_out.html">checkout</a>
+        <a class="cart_view" href="{{ route('cart.index') }}"> view cart</a>
+        <a class="checkout" href="{{ route('checkout.index')}}">checkout</a>
     </div>
 </div>
 

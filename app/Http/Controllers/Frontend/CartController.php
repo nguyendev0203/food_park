@@ -6,13 +6,25 @@ use App\Http\Controllers\Controller;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Gloudemans\Shoppingcart\Facades\Cart;
+use Illuminate\Validation\ValidationException;
 
 class CartController extends Controller
 {
+    public function index()
+    {
+        return view('frontend.pages.cart-view');
+    }
+
     public function addToCart(Request $request)
     {
         try {
             $product = Product::with(['sizes', 'options'])->findOrFail($request->product_id);
+
+            if ($product->quantity < $request->quantity)
+            {
+                throw ValidationException::withMessages(['Quantity is not available!']);
+            }
+
             $options = [
                 'size' => [],
                 'extra' => [],
@@ -55,7 +67,7 @@ class CartController extends Controller
             return response(['status' => 'success', 'message' => 'Product added into cart!'], 200);
         } catch (\Exception $e) {
             logger($e);
-            return response(['status' => 'error', 'message' => 'Something went wrong!'], 500);
+            return response(['status' => 'error', 'message' => $e->getMessage()], 500);
         }
     }
 
@@ -68,9 +80,16 @@ class CartController extends Controller
     {
         try {
             Cart::remove($rowId);
+            
+            if(Cart::count() == 0){
+                session()->forget('coupon');
+            }
             return response([
                 'status' => 'success',
-                'message' => 'Product removed from cart!'
+                'message' => 'Product removed from cart!',
+                'cart_total' => cartTotal(),
+                'cart_grand_total' => grandTotalCart(),
+                'cart_count' => Cart::count() 
             ], 200);
         } catch (\Exception $e) {
             logger($e);
@@ -79,5 +98,37 @@ class CartController extends Controller
                 'message' => 'Something went wrong!'
             ], 500);
         }
+    }
+
+    public function updateCartQuantity(Request $request)
+    {
+        $cartItem = Cart::get($request->rowId);
+        $product = Product::findOrFail($cartItem->id);
+
+        if($product->quantity < $request->qty){
+            return response(['status' => 'error', 'message' => 'Quantity is not available!', 'qty' => $cartItem->qty]);
+        }
+
+        try {
+            $cart = Cart::update($request->rowId, $request->qty);
+            return response([
+                'status' => 'success',
+                'product_total' => productTotal($request->rowId),
+                'qty' => $cart->qty,
+                'cart_total' => cartTotal(),
+                'cart_grand_total' => grandTotalCart()
+            ], 200);
+
+        } catch (\Exception $e) {
+            logger($e);
+            return response(['status' => 'error', 'message' => 'Something went wrong please reload the page.'], 500);
+        }
+    }
+
+    public function cartDestroy()
+    {
+        Cart::destroy();
+        session()->forget('coupon');
+        return redirect()->back();
     }
 }

@@ -45,23 +45,42 @@ if (!function_exists('currencyPosition')) {
 
 /** Calculate cart total price */
 if (!function_exists('cartTotal')) {
-    /**
-     * Calculates the total price of items in the cart.
-     *
-     * @return float The total price of the cart.
-     */
     function cartTotal()
     {
         $total = 0;
 
         foreach (Cart::content() as $item) {
-            $productPrice = $item->price;
-            $sizePrice = isset($item->options['size']['price']) ? $item->options['size']['price'] : 0;
-            $optionsPrice = array_sum(array_column($item->options['extra'], 'price'));
-
-            $total += ($productPrice + $sizePrice + $optionsPrice) * $item->qty;
+            $total += ($item->price + ($item->options['size']['price'] ?? 0) +
+                array_sum(array_column($item->options->extra, 'price'))) * $item->qty;
         }
 
-        return $total;
+        return $total = number_format($total, 2, '.', '');
+    }
+}
+
+/** Calculate product total price */
+if (!function_exists('productTotal')) {
+    function productTotal($rowId)
+    {
+        $product = Cart::get($rowId);
+        $total = ($product->price + ($product->options?->size['price'] ?? 0) +
+            array_sum(array_column($product->options->extra, 'price'))) * $product->qty;
+
+        return $total = number_format($total, 2, '.', '');;
+    }
+}
+
+/** Grand cart total */
+if (!function_exists('grandTotalCart')) {
+    function grandTotalCart($deliveryFee = 0)
+    {
+        $total = cartTotal() + $deliveryFee;
+
+        if (session()->has('coupon')) {
+            $discount = session()->get('coupon')['discount'];
+            $total -= $discount;
+        }
+
+        return $total = number_format($total, 2, '.', '');
     }
 }

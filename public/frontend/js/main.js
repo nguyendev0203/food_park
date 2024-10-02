@@ -27,6 +27,7 @@ $(function () {
     $("#select_js2").niceSelect();
     $("#select_js3").niceSelect();
     $("#select_js4").niceSelect();
+    $(".nice-select").niceSelect();
     $(".banner_slider").slick({
         slidesToShow: 1,
         slidesToScroll: 1,
@@ -200,9 +201,9 @@ $(function () {
     $(".cancel_new_address").on("click", function () {
         $(".address_body").removeClass("show_new_address");
     });
-    $(".dash_edit_btn").on("click", function () {
-        $(".address_body").addClass("show_edit_address");
-    });
+    // $(".dash_edit_btn").on("click", function () {
+    //     $(".address_body").addClass("show_edit_address");
+    // });
     $(".cancel_edit_address").on("click", function () {
         $(".address_body").removeClass("show_edit_address");
     });
