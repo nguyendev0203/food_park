@@ -13,6 +13,7 @@ use App\Http\Controllers\Admin\ProductSizeController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\CouponController;
 use App\Http\Controllers\Admin\DeliveryAreaController;
+use App\Http\Controllers\Admin\PaymentGatewaySettingControlller;
 
 Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
     Route::get('dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
@@ -46,6 +47,13 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
 
     /** Product Option Routes */
     Route::resource('product-option', ProductOptionController::class);
+    
+    /** Payment Gateway Setting Routes */
+    Route::get('/payment-gateway-setting', [PaymentGatewaySettingControlller::class,'index'])->name('payment-setting.index');
+    Route::put('/paypal-setting', [PaymentGatewaySettingControlller::class,'paypalSettingUpdate'])->name('paypal-setting.update');
+    Route::put('/stripe-setting', [PaymentGatewaySettingControlller::class,'stripeSettingUpdate'])->name('stripe-setting.update');
+    Route::put('/razorpay-setting', [PaymentGatewaySettingControlller::class, 'razorpaySettingUpdate'])->name('razorpay-setting.update');
+
 
      /** Setting Routes */
      Route::get('/setting', [SettingController::class, 'index'])->name('setting.index');

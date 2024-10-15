@@ -154,81 +154,6 @@
                                 @endforeach
                             </div>
 
-                            <form>
-                                <div class="row">
-                                    <div class="col-12">
-                                        <h5>billing address</h5>
-                                    </div>
-                                    <div class="col-md-6 col-lg-12 col-xl-6">
-                                        <div class="fp__check_single_form">
-                                            <input type="text" placeholder="First Name">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 col-lg-12 col-xl-6">
-                                        <div class="fp__check_single_form">
-                                            <input type="text" placeholder="Last Name">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-12 col-lg-12 col-xl-12">
-                                        <div class="fp__check_single_form">
-                                            <input type="text" placeholder="Company Name (Optional)">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 col-lg-12 col-xl-6">
-                                        <div class="fp__check_single_form">
-                                            <select id="select_js3">
-                                                <option value="">select country</option>
-                                                <option value="">bangladesh</option>
-                                                <option value="">nepal</option>
-                                                <option value="">japan</option>
-                                                <option value="">korea</option>
-                                                <option value="">thailand</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 col-lg-12 col-xl-6">
-                                        <div class="fp__check_single_form">
-                                            <input type="text" placeholder="Street Address *">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 col-lg-12 col-xl-6">
-                                        <div class="fp__check_single_form">
-                                            <input type="text" placeholder="Apartment, suite, unit, etc. (optional)">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 col-lg-12 col-xl-6">
-                                        <div class="fp__check_single_form">
-                                            <input type="text" placeholder="Town / City *">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 col-lg-12 col-xl-6">
-                                        <div class="fp__check_single_form">
-                                            <input type="text" placeholder="State *">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 col-lg-12 col-xl-6">
-                                        <div class="fp__check_single_form">
-                                            <input type="text" placeholder="Zip *">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 col-lg-12 col-xl-6">
-                                        <div class="fp__check_single_form">
-                                            <input type="text" placeholder="Phone *">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 col-lg-12 col-xl-6">
-                                        <div class="fp__check_single_form">
-                                            <input type="email" placeholder="Email *">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-12 col-lg-12 col-xl-12">
-                                        <div class="fp__check_single_form">
-                                            <h5>Additional Information</h5>
-                                            <textarea cols="3" rows="4" placeholder="Notes about your order, e.g. special notes for delivery"></textarea>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
 
                         </div>
                     </div>
@@ -261,6 +186,7 @@
 @push('scripts')
     <script>
         $(document).ready(function() {
+            $('.v_address').prop('checked', false);
             $('.v_address').on('click', function() {
                 const addressId = $(this).val();
                 const shippingCost = $('#delivery_fee');
@@ -276,6 +202,28 @@
                             .replace(":amount", shipping_cost.toFixed(2)));
                         grandTotal.text("{{ currencyPosition(':amount') }}"
                             .replace(":amount", grand_total));
+                    },
+                    error: ({responseJSON: {message}}) => {
+                        toastr.success(message);
+                    },
+                    complete: () => hideLoader()
+                });
+            });
+
+            $('#procced_pmt_button').on('click', function() {
+                let address = $('.v_address:checked');
+                let addressId = address.val();
+                if(address.length === 0){
+                    toastr.error('Please Select a Address!');
+                    return;
+                }
+                $.ajax({
+                    method: 'POST',
+                    url: '{{ route("checkout.redirect")}}',
+                    data: {addressId : addressId},
+                    beforeSend: () => showLoader(),
+                    success: ({redirect_url}) => {
+                        window.location.href = redirect_url;
                     },
                     error: ({responseJSON: {message}}) => {
                         toastr.success(message);

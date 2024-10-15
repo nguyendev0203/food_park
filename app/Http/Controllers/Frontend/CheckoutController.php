@@ -17,7 +17,7 @@ class CheckoutController extends Controller
         return view('frontend.pages.checkout', compact('addresses', 'deliveryAreas'));
     }
 
-    function CalculateShippingCost(string $addressId)
+    public function CalculateShippingCost(string $addressId)
     {
         try {
             $address = Address::findOrFail($addressId);
@@ -28,5 +28,23 @@ class CheckoutController extends Controller
             logger($e);
             return response(['message' => 'Something Went Wrong!'], 422);
         }
+    }
+
+    public function checkoutRedirect(Request $request)
+    {
+        $request->validate([
+            'addressId' => ['required', 'integer']
+        ]);
+
+        $address = Address::with('deliveryArea')->findOrFail($request->addressId);
+
+        $selectedAddress = $address->address . ', Aria: ' . $address->deliveryArea?->area_name;
+
+        session()->put('address', $selectedAddress);
+        session()->put('shipping_cost', $address->deliveryArea->delivery_fee);
+        session()->put('delivery_area_id', $address->deliveryArea->id);
+
+
+        return response(['redirect_url' => route('payment.index')]);
     }
 }

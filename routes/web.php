@@ -8,7 +8,7 @@ use App\Http\Controllers\Admin\AdminAuthController;
 use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\Frontend\CheckoutController;
 use App\Http\Controllers\Frontend\DashboardController;
-
+use App\Http\Controllers\Frontend\PaymentController;
 
 /**
  * Admin Auth Routes
@@ -55,6 +55,27 @@ Route::get('/destroy-coupon', [FrontendController::class, 'destroyCoupon'])->nam
 
 Route::group(['middleware' => 'auth'], function () {
    Route::get('checkout', [CheckoutController::class, 'index'])->name('checkout.index');
-   Route::get('checkout/{addressId}/shipping-cost',[CheckoutController::class,'CalculateShippingCost'])->name('checkout.shipping-cost');
+   Route::get('checkout/{addressId}/shipping-cost', [CheckoutController::class, 'CalculateShippingCost'])->name('checkout.shipping-cost');
+   Route::post('checkout', [CheckoutController::class, 'checkoutRedirect'])->name('checkout.redirect');
 
+   /** Payment Routes */
+   Route::get('payment', [PaymentController::class, 'index'])->name('payment.index');
+   Route::post('make-payment', [PaymentController::class, 'makePayment'])->name('make.payment');
+
+   Route::get('payment-success', [PaymentController::class, 'successPayment'])->name('payment.success');
+   Route::get('payment-cancel', [PaymentController::class, 'cancelPayment'])->name('payment.cancel');
+
+   /** PayPal Routes */
+   Route::get('paypal/pament', [PaymentController::class, 'payWithPaypal'])->name('paypal.payment');
+   Route::get('paypal/success', [PaymentController::class, 'paypalSuccess'])->name('paypal.success');
+   Route::get('paypal/cancel', [PaymentController::class, 'paypalCancel'])->name('paypal.cancel');
+
+   /** Stripe Routes */
+   Route::get('stripe/payment', [PaymentController::class, 'payWithStripe'])->name('stripe.payment');
+   Route::get('stripe/success', [PaymentController::class, 'stripeSuccess'])->name('stripe.success');
+   Route::get('stripe/cancel', [PaymentController::class, 'stripeCancel'])->name('stripe.cancel');
+
+   /** Razorpay Routes */
+   Route::get('razorpay-redirect', [PaymentController::class, 'razorpayRedirect'])->name('razorpay-redirect');
+   Route::post('razorpay/payment', [PaymentController::class, 'payWithRazorpay'])->name('razorpay.payment');
 });

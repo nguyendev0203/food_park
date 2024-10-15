@@ -32,7 +32,7 @@ class SettingController extends Controller
             );
         }
 
-        app(SettingsService::class)->clearCachedSettings();
+        app(SettingsService::class)->clearCachedSetting();
 
         toastr()->success('Updated Successfully!');
 

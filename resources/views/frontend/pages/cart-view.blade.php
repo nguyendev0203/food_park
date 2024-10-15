@@ -166,7 +166,7 @@
 @push('scripts')
     <script>
         $(document).ready(function() {
-            var cartTotal = parseInt("{{ cartTotal() }}");
+            var cartTotal = ("{{ cartTotal() }}");
             $('.c_increment').on('click', function() {
                 const $inputField = $(this).siblings('.quantity');
                 const currentValue = parseInt($inputField.val()); // Ensure base 10 for parsing
@@ -291,7 +291,7 @@
             function applyCoupon(code, subtotal) {
                 $.ajax({
                     method: 'POST',
-                    url: '{{ route('apply-coupon') }}',
+                    url: '{{ route("apply-coupon") }}',
                     data: {
                         'code': code,
                         'subtotal': subtotal
